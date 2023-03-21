@@ -43,13 +43,13 @@ jobs:
 
       - name: Increment Patch
         id: increment-patch
-        if: ${{ github.head_ref == 'refs/heads/hotfix/**' }}
+        if: ${{ github.head_ref == 'hotfix/**' }}
         run: |
           echo "PATCH=$((PATCH + 1))" >> $GITHUB_ENV
 
       - name: Increment Minor
         id: increment-minor
-        if: ${{ github.head_ref == 'refs/heads/feature/**' }}
+        if: ${{ github.head_ref == 'feature/**' }}
         run: |
           echo "MINOR=$((MINOR + 1))" >> $GITHUB_ENV
           echo "PATCH=0" >> $GITHUB_ENV
