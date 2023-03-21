@@ -56,8 +56,11 @@ jobs:
       - name: get commit sha
         id: get-sha
         run: |
-          echo git rev-parse HEAD
+          echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
+      - name: Print SHA
+        run: |
+          echo $SHA
       # - name: Create Tag
       #   id: create-tag
       #   env:
