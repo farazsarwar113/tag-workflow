@@ -27,3 +27,28 @@ jobs:
       - name: Print Tags
         run: |
           echo $TAGS
+
+      - name: Split Tag
+        id: split-tag
+        run: |
+          IFS='.' read -ra tag <<< "$TAGS"
+          echo "MAJOR=${tag[0]}" >> $GITHUB_ENV
+          echo "MINOR=${tag[1]}" >> $GITHUB_ENV
+          echo "PATCH=${tag[2]}" >> $GITHUB_ENV
+
+      - name: Increment Patch
+        id: increment-patch
+        run: |
+          echo "PATCH=$((PATCH + 1))" >> $GITHUB_ENV
+
+      - name: Increment Minor
+        id: increment-minor
+        # if: ${{ github.ref == 'refs/heads/feature/**' }}
+        run: |
+          echo "MINOR=$((MINOR + 1))" >> $GITHUB_ENV
+          echo "PATCH=0" >> $GITHUB_ENV
+      
+      - name: Join Major, Minor and Patch
+        id: join-tag
+        run: |
+          echo "TAG=$MAJOR.$MINOR.$PATCH" >> $GITHUB_ENV
