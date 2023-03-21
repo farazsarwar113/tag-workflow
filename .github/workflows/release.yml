@@ -1,4 +1,4 @@
-name: DEPLOY SJOFARTS API
+name: Add Tag
 
 on:
   push:
@@ -9,8 +9,11 @@ jobs:
   get-tag:
     runs-on: ubuntu-latest
     steps:
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up ENV
+      - uses: allenevans/set-env@v2.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Checkout
         uses: actions/checkout@v3
         
