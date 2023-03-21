@@ -19,4 +19,4 @@ jobs:
         
       - name: Print Repo Name
         run: |
-          echo ${{GITHUB_REPOSITORY}} \
+          echo ${{github.repository}}
