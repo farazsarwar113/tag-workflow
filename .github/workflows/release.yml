@@ -22,7 +22,7 @@ jobs:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
           tags="$(gh api repos/${{github.repository}}/git/matching-refs/tags)"
-          echo 'TAGS='$tags >> $GITHUB_ENV
+          echo 'TAGS='$tags[0] >> $GITHUB_ENV
 
       - name: Print Tags
         run: |
