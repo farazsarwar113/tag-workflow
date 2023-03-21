@@ -1,9 +1,11 @@
 name: Add Tag
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - feature/**
+      - 'feature/**'
 
 jobs:
   get-tag:
