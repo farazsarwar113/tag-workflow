@@ -21,8 +21,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
-          tags="$(gh api repos/${{github.repository}}/git/matching-refs/tags)"
-          echo 'TAGS='$tags[0] >> $GITHUB_ENV
+          tags="$(gh api repos/${{github.repository}}/git/matching-refs/tags -H 'Accept: application/vnd.github.v3+json' | jq -r '.[].ref' | sed 's/refs\/tags\///g' | sort -V | tail -n 1)"
+          echo 'TAGS='$tags >> $GITHUB_ENV
 
       - name: Print Tags
         run: |
