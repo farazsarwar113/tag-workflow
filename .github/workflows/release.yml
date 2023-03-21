@@ -21,9 +21,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
-          gh api repos/${{github.repository}}/git/matching-refs/tags \
-          echo "::set-output name=tags::gh api repos/${{github.repository}}/git/matching-refs/tags"
+          tags="$(gh api repos/${{github.repository}}/git/matching-refs/tags)"
+          echo 'TAGS='$tags >> $GITHUB_ENV
 
       - name: Print Tags
         run: |
-          echo ${{steps.get-tags.outputs.tags}}
+          echo $TAGS
