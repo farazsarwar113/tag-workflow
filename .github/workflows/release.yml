@@ -5,7 +5,7 @@ on:
     types:
       - closed
     branches:
-      - 'feature/**'
+      - 'main'
 
 jobs:
   get-tag:
@@ -41,14 +41,15 @@ jobs:
           echo "MINOR=${tag[1]}" >> $GITHUB_ENV
           echo "PATCH=${tag[2]}" >> $GITHUB_ENV
 
-      # - name: Increment Patch
-      #   id: increment-patch
-      #   run: |
-      #     echo "PATCH=$((PATCH + 1))" >> $GITHUB_ENV
+      - name: Increment Patch
+        id: increment-patch
+        if: ${{ github.head_ref == 'refs/heads/hotfix/**' }}
+        run: |
+          echo "PATCH=$((PATCH + 1))" >> $GITHUB_ENV
 
       - name: Increment Minor
         id: increment-minor
-        # if: ${{ github.ref == 'refs/heads/feature/**' }}
+        if: ${{ github.head_ref == 'refs/heads/feature/**' }}
         run: |
           echo "MINOR=$((MINOR + 1))" >> $GITHUB_ENV
           echo "PATCH=0" >> $GITHUB_ENV
@@ -73,7 +74,3 @@ jobs:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
           gh api repos/${{github.repository}}/git/refs -X POST -f ref=refs/tags/$TAG -f sha=$GITHUB_SHA
-
-      - name: Print Pull Request Branch Name
-        run: |
-          echo '${{ toJSON(github) }}'
