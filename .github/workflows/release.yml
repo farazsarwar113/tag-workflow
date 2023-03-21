@@ -1,0 +1,19 @@
+name: DEPLOY SJOFARTS API
+
+on:
+  push:
+    branches:
+      - feature/**
+
+jobs:
+  get-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Print Repo Name
+        run: |
+          echo ${{GITHUB_REPOSITORY}} \
