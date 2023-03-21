@@ -20,4 +20,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
-          gh api repos/${{github.repository}}/issues
+          gh api repos/${{github.repository}}/git/matching-refs/
