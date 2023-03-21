@@ -69,6 +69,6 @@ jobs:
       #   run: |
       #     gh api repos/${{github.repository}}/git/refs -X POST -f ref=refs/tags/$TAG -f sha=$GITHUB_SHA
 
-      - name: Print Pull Request Branch
+      - name: Print Pull Request Branch Name
         run: |
           echo ${{github.ref}}
