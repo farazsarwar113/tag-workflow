@@ -9,6 +9,9 @@ jobs:
   get-tag:
     runs-on: ubuntu-latest
     steps:
+      - name: Print Pull Request Branch Name
+        run: |
+          echo ${{github.ref}}
       - name: Checkout
         uses: actions/checkout@v3
         
@@ -71,4 +74,4 @@ jobs:
 
       - name: Print Pull Request Branch Name
         run: |
-          echo ${{github.ref}}
+          echo ${{github}}
