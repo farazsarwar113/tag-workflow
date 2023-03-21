@@ -43,7 +43,7 @@ jobs:
 
       - name: Increment Patch
         id: increment-patch
-        if: ${{ github.head_ref == 'hotfix/**' }}
+        if: ${{ startsWith(github.head_ref, 'hotfix/' ) }}
         run: |
           echo "PATCH=$((PATCH + 1))" >> $GITHUB_ENV
 
