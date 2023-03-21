@@ -74,4 +74,4 @@ jobs:
 
       - name: Print Pull Request Branch Name
         run: |
-          echo ${{github}}
+          echo '${{ toJSON(github) }}'
