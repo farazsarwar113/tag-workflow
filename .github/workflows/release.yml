@@ -80,23 +80,22 @@ jobs:
         run: |
           echo "::set-output name=GENERATE_RELEASE_NOTES::${{ toJSON(true) }}"
 
-      - name : Print Output
-        run: |
-          echo ${{ steps.generate-release-notes.outputs.GENERATE_RELEASE_NOTES }}
+      - name: Install git-changelog
+        run: sudo pip install git-changelog
 
-      - name: Changelog
-        uses: Bullrich/generate-release-changelog@master
-        id: Changelog
-        env:
-          REPO: ${{ github.repository }}
-
-      - name: Print Changelog
+      - name: Generate release notes
+        id: gen-notes
         run: |
-          echo ${{ steps.Changelog.outputs.changelog }}
+          changelog=$(git-changelog -s --output-format markdown)
+          echo "::set-output name=changelog::$changelog"
+        
+      - name : Print Release Notes
+        run: |
+          echo ${{ steps.gen-notes.outputs.changelog }}
 
       - name: Create Release
         id: create-release
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
-          gh api repos/${{github.repository}}/releases -X POST -H "Accept: application/vnd.github+json" -f tag_name=$TAG -f name=$TAG -F body=$CHANGELOG
+          gh api repos/${{github.repository}}/releases -X POST -H "Accept: application/vnd.github+json" -f tag_name=$TAG -f name=$TAG -F body=${{ steps.gen-notes.outputs.changelog }}
