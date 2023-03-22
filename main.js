@@ -1,4 +1,4 @@
 console.log('Hello World!');
-console.log('This is hotfix');
+console.log('This is feature 7');
 
 // # 
