@@ -21,22 +21,6 @@ jobs:
         run: |
           echo ${{github.repository}}
 
-      - name: Install git-chglog
-        run: sudo apt-get update && sudo apt-get install -y python3-pip
-        
-      - name: Install git-chglog
-        run: sudo pip3 install git-chglog
-
-      - name: Generate release notes
-        id: gen-notes
-        run: |
-          changelog=$(git-chglog --next-tag $(git describe --tags --abbrev=0) --output-format markdown)
-          echo "::set-output name=changelog::$changelog"
-        
-      - name : Print Release Notes
-        run: |
-          echo ${{ steps.gen-notes.outputs.changelog }}
-
       - name: Get Tags of Repo
         id: get-tags
         env:
@@ -95,6 +79,19 @@ jobs:
         id: generate-release-notes
         run: |
           echo "::set-output name=GENERATE_RELEASE_NOTES::${{ toJSON(true) }}"
+
+      - name: Install git-changelog
+        run: sudo apt-get update && sudo apt-get install -y git-changelog
+
+      - name: Generate release notes
+        id: gen-notes
+        run: |
+          changelog=$(git-changelog --tag-pattern "v[0-9]*" --output-format markdown)
+          echo "::set-output name=changelog::$changelog"
+        
+      - name : Print Release Notes
+        run: |
+          echo ${{ steps.gen-notes.outputs.changelog }}
 
       - name: Create Release
         id: create-release
