@@ -81,7 +81,7 @@ jobs:
           echo "::set-output name=GENERATE_RELEASE_NOTES::${{ toJSON(true) }}"
 
       - name: Install git-changelog
-        run: sudo apt-get update && sudo apt-get install -y git-changelog
+        run: sudo pip install git-changelog
 
       - name: Generate release notes
         id: gen-notes
