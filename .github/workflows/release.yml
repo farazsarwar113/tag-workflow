@@ -84,6 +84,16 @@ jobs:
         run: |
           echo ${{ steps.generate-release-notes.outputs.GENERATE_RELEASE_NOTES }}
 
+      - name: Changelog
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
+        env:
+          REPO: ${{ github.repository }}
+
+      - name: Print Changelog
+        run: |
+          echo ${{ steps.Changelog.outputs.changelog }}
+
       - name: Create Release
         id: create-release
         env:
