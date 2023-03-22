@@ -75,9 +75,18 @@ jobs:
         run: |
           gh api repos/${{github.repository}}/git/refs -X POST -f ref=refs/tags/$TAG -f sha=$GITHUB_SHA
 
+      - name: Declare Boolean Output
+        id: generate-release-notes
+        run: |
+          echo "::set-output name=GENERATE_RELEASE_NOTES::${{ toJSON(true) }}"
+
+      - name : Print Output
+        run: |
+          echo ${{ steps.generate-release-notes.outputs.GENERATE_RELEASE_NOTES }}
+
       - name: Create Release
         id: create-release
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
-          gh api repos/${{github.repository}}/releases -X POST -H "Accept: application/vnd.github+json" -f tag_name=$TAG -f name=$TAG -f generate_release_notes=true
+          gh api repos/${{github.repository}}/releases -X POST -H "Accept: application/vnd.github+json" -f tag_name=$TAG -f name=$TAG -f generate_release_notes=${{ steps.generate-release-notes.outputs.GENERATE_RELEASE_NOTES }}
