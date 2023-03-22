@@ -22,7 +22,10 @@ jobs:
           echo ${{github.repository}}
 
       - name: Install git-chglog
-        run: sudo apt-get update && sudo apt-get install -y git-chglog
+        run: sudo apt-get update && sudo apt-get install -y python3-pip
+        
+      - name: Install git-chglog
+        run: sudo pip3 install git-chglog
 
       - name: Generate release notes
         id: gen-notes
